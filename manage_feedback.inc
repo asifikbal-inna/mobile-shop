@@ -1,10 +1,4 @@
 <?php
-// $Id$
-
-/******************************************************************************/
-/***************************** MANAGE FEEDBACK ********************************/
-/******************************************************************************/
-
 function manage_feedback_form($form_state)
 {
 	global $user;
@@ -63,7 +57,7 @@ function manage_feedback_form($form_state)
     '#disabled' => TRUE,
   );
 
-  /* file attachments */
+
   $attachment_q = db_query("SELECT * FROM {assignment_feedback_attachments} WHERE submission_id = %d", $feedback_id);
   if ($attach1_data = db_fetch_object($attachment_q)) {
 		$form['attach1'] = array(
@@ -179,11 +173,6 @@ function manage_feedback_form_submit($form, &$form_state)
 
 	drupal_goto('feedback/manage');
 }
-
-/******************************************************************************/
-/******************************* EDIT FEEDBACK ********************************/
-/******************************************************************************/
-
 function edit_feedback_form($form_state)
 {
 	global $user;
@@ -199,7 +188,6 @@ function edit_feedback_form($form_state)
 	$user_data = user_load($feedback_data->uid);
 	$node_data = node_load($feedback_data->nid);
 
-  /* add javascript for automatic book title, check if example uploaded, dependency selection effects */
   $assignment_js = " $(document).ready(function() {
   	var curWhere;
     $('#edit-feedback-type').change(function() {
@@ -364,8 +352,6 @@ function edit_feedback_form_submit($form, &$form_state)
 	}
 	$user_data = user_load($feedback_data->uid);
 	$node_data = node_load($feedback_data->nid);
-
-	/* delete feedback option selected */ 
 	if ($form_state['values']['delete_feedback'] == 1) {
 
 		/* delete attachments */
@@ -395,7 +381,6 @@ function edit_feedback_form_submit($form, &$form_state)
 			return;
 		}
 
-		/* delete feedback */
 		db_query("DELETE FROM {assignment_feedback_submissions} WHERE id = %d", $feedback_id);
 		drupal_set_message(t('Feedback has been deleted!'), 'status');
 		drupal_goto('feedback/manage');
@@ -413,7 +398,6 @@ function edit_feedback_form_submit($form, &$form_state)
 		$completion_time = 0;
 	}
 
-	/* update feedback */
 	db_query("UPDATE {assignment_feedback_submissions} SET feedback_type = %d, feedback_where = %d, timing = '%s', completion_time = %d, comments = '%s' WHERE id = %d",
 						$form_state['values']['feedback_type'],
 						$form_state['values']['feedback_where'],
@@ -427,10 +411,6 @@ function edit_feedback_form_submit($form, &$form_state)
 	drupal_goto('feedback/manage');
 	return;
 }
-
-/******************************************************************************/
-/***************************** LIST OF FEEDBACK *******************************/
-/******************************************************************************/
 
 function _pending_feedbacks()
 {
