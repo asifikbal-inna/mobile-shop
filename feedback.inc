@@ -1,5 +1,5 @@
 <?php
-// $Id$
+
 
 function add_feedback_form($form_state)
 {
@@ -11,8 +11,6 @@ function add_feedback_form($form_state)
 		drupal_set_message(t('Invalid Link'), 'error');
 		drupal_goto('');
 	}
-
-  /* add javascript for automatic book title, check if example uploaded, dependency selection effects */
   $assignment_js = " $(document).ready(function() {
   	var curWhere;
     $('#edit-feedback-type').change(function() {
@@ -151,7 +149,6 @@ function add_feedback_form($form_state)
 function add_feedback_form_validate($form, &$form_state)
 {
 
-  /* add javascript for automatic book title, check if example uploaded, dependency selection effects */
   $assignment_js = " $(document).ready(function() {
   	var curWhere;
     $('#edit-feedback-type').change(function() {
@@ -206,8 +203,7 @@ function add_feedback_form_validate($form, &$form_state)
   if ($form_state['values']['completion_time'])
   	if (!preg_match('/^\d+$/', $form_state['values']['completion_time']))
     	form_set_error('completion_time', t('How long did you take to complete the assignment is not a valid time.'));
-
-    /* check for valid filename extensions */  
+ 
     foreach ($_FILES['files']['name'] as $file_form_name => $file_name)
     {
       if ($file_name)
